@@ -10,6 +10,17 @@ body {
     background-position: center; 
     background-repeat: no-repeat;
 }
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute; /* Or fixed */
+    top: 20px; /* y-coordinate */
+    left: 50%; /* x-coordinate */
+    transform: translateX(-50%); /* Center horizontally */
+    width: 100%;
+}
+
 
 
 .container {
@@ -106,4 +117,24 @@ li button:hover {
     color: white;
     border: 2px solid #dc3545;
 }
+#add-task-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: #F38071;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
 
+#add-task-button:hover {
+    background-color: #F0604D;
+}
