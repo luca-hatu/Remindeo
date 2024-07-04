@@ -8,8 +8,19 @@
 </head>
 <body>
     <div class="header">
-        <img src="logo.png" alt="Logo" class="logo">
+        <img src="/images/logo.png" alt="Logo" class="logo" style="width: 75px; height: 50px;">
         <h1>Remindeo</h1>
+    </div>
+    <button id="settings-button">Settings</button>
+    <div id="settings-popup" class="popup hidden">
+        <h2>Customize Widgets</h2>
+        <div class="widget-options">
+            <label><input type="checkbox" id="clock-widget-option"> Clock</label>
+            <label><input type="checkbox" id="news-widget-option"> News</label>
+        </div>
+        <button id="save-settings">Save</button>
+    </div>
+        <div class="widgets" id="widgets-container">
     </div>
     <div class="container">
         <ul id="task-list"></ul>
