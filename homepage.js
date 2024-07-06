@@ -117,5 +117,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize widgets
     initializeWidgets();
 });
-
+settingsButton.addEventListener('click', function() {
+    settingsButton.classList.add('rotate');
+    setTimeout(() => settingsButton.classList.remove('rotate'), 500);
+    settingsPopup.classList.toggle('hidden');
+});
 
