@@ -8,10 +8,10 @@
 </head>
 <body>
     <div class="header">
-        <img src="/images/logo.png" alt="Logo" class="logo" style="width: 75px; height: 50px;">
+        <img src="/Remindeo/images/logo.png" alt="Logo" class="logo" style="width: 75px; height: 50px;">
         <h1>Remindeo</h1>
     </div>
-    <img id="settings-button" src="/images/settings.png" alt="Settings"></img>
+    <img id="settings-button" src="/Remindeo/images/settings.png" alt="Settings"></img>
     <div id="settings-popup" class="popup hidden">
         <h2>Customize Widgets</h2>
         <div class="widget-options">
@@ -23,8 +23,25 @@
         <div class="widgets" id="widgets-container">
     </div>
     <div class="container">
+        <div class="filters">
+            <label for="due-date-filter">Filter by Due Date:</label>
+            <select id="due-date-filter">
+                <option value="all">All</option>
+                <option value="today">Today</option>
+                <option value="tomorrow">Tomorrow</option>
+                <option value="week">Next 7 Days</option>
+            </select>
+    
+            <label for="priority-filter">Filter by Priority:</label>
+            <select id="priority-filter">
+                <option value="all">All</option>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+        </div>
         <ul id="task-list"></ul>
-        <button id="add-task-button">+</button>
+        <button id="add-task-button">+</button>       
     </div>
     <script src="homepage.js"></script>
 </body>
