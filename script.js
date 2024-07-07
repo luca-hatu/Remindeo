@@ -13,13 +13,9 @@ document.getElementById('task-form').addEventListener('submit', function(event) 
         const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
         tasks.push({ taskText, dueDate, priority });
         localStorage.setItem('tasks', JSON.stringify(tasks));
-
-        // Clear input fields
         taskInput.value = '';
         dueDateInput.value = '';
-        priorityInput.value = 'Medium'; // Reset to default priority
-
-        // Redirect to homepage
+        priorityInput.value = 'Medium';
         window.location.href = 'homepage.html';
     }
 });

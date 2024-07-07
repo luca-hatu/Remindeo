@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'clock-widget-option': 'clock-widget',
         'news-widget-option': 'news-widget'
     };
-    // Initialize widgets based on saved settings
+    
     function initializeWidgets() {
         widgetsContainer.innerHTML = '';
         const savedWidgets = JSON.parse(localStorage.getItem('widgets')) || [];
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Add widget to the container
+
     function addWidget(widgetId) {
         const widget = document.createElement('div');
         widget.className = `widget ${widgetId}`;
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 break;
         }
     }
-    // Update clock widget
+    
     function updateClock() {
         const now = new Date();
         const hours = String(now.getHours()).padStart(2, '0');
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const timeString = `${hours}:${minutes}:${seconds}`;
         document.getElementById('clock').textContent = timeString;
     }
-     // Update news widget
+    
     function updateNews() {
         const apiKey = '830633f2ddc44f2a9757d476105c9f2b';
         const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 const newsElement = document.querySelector('.news-widget');
-                const articles = data.articles.slice(0, 5); // Display top 5 articles
+                const articles = data.articles.slice(0, 5); 
                 let newsHTML = '<h2>Top News</h2>';
                 articles.forEach(article => {
                     newsHTML += `<p><a href="${article.url}" target="_blank">${article.title}</a></p>`;
@@ -96,12 +96,9 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Error fetching news:', error));
     }
 
-    // Toggle settings popup
     settingsButton.addEventListener('click', function() {
         settingsPopup.classList.toggle('hidden');
     });
-
-    // Save settings
     saveSettingsButton.addEventListener('click', function() {
         const selectedWidgets = [];
         for (const option in widgetOptions) {
@@ -114,12 +111,5 @@ document.addEventListener('DOMContentLoaded', function() {
         settingsPopup.classList.add('hidden');
     });
 
-    // Initialize widgets
     initializeWidgets();
 });
-settingsButton.addEventListener('click', function() {
-    settingsButton.classList.add('rotate');
-    setTimeout(() => settingsButton.classList.remove('rotate'), 500);
-    settingsPopup.classList.toggle('hidden');
-});
-
