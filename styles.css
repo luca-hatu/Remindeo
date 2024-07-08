@@ -5,7 +5,7 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-image: url('/Remindeo/images/background.jpg'); 
+    background-image: url('/images/background.jpg'); 
     background-size: cover; 
     background-position: center; 
     background-repeat: no-repeat;
@@ -206,7 +206,7 @@ li button:hover {
         transform: rotate(0deg);
     }
     to {
-        transform: rotate(360deg);
+        transform: rotate(180deg);
     }
 }
 

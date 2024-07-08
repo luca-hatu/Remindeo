@@ -4,11 +4,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const dueDateFilter = document.getElementById('due-date-filter');
     const priorityFilter = document.getElementById('priority-filter');
 
-    // Function to render tasks based on filters
     function renderTasks() {
-        let filteredTasks = tasks.slice(); // Create a copy of tasks array
+        let filteredTasks = tasks.slice();
 
-        // Apply due date filter
         const dueDateOption = dueDateFilter.value;
         switch (dueDateOption) {
             case 'today':
@@ -21,20 +19,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 filteredTasks = filteredTasks.filter(task => isWithinNext7Days(new Date(task.dueDate)));
                 break;
             default:
-                // No filter applied
                 break;
         }
 
-        // Apply priority filter
         const priorityOption = priorityFilter.value.toLowerCase();
         if (priorityOption !== 'all') {
             filteredTasks = filteredTasks.filter(task => task.priority.toLowerCase() === priorityOption);
         }
 
-        // Clear existing task list
         taskList.innerHTML = '';
 
-        // Render filtered tasks
         filteredTasks.forEach(task => {
             const listItem = document.createElement('li');
             listItem.innerHTML = `
@@ -53,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (index !== -1) {
                     tasks.splice(index, 1);
                     localStorage.setItem('tasks', JSON.stringify(tasks));
-                    renderTasks(); // Re-render tasks after deletion
+                    renderTasks(); 
                 }
             });
 
@@ -61,11 +55,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Event listeners for filters
     dueDateFilter.addEventListener('change', renderTasks);
     priorityFilter.addEventListener('change', renderTasks);
 
-    // Function to check if a date is today, tomorrow, or within the next 7 days
     function isToday(someDate) {
         const today = new Date();
         return someDate.getDate() === today.getDate() &&
@@ -87,7 +79,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return someDate >= today && someDate <= nextWeek;
     }
 
-    // Initial render of tasks
     renderTasks();
 });
 
@@ -96,87 +87,98 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = 'index.html';
     });
     
-document.addEventListener('DOMContentLoaded', function() {
-    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    const taskList = document.getElementById('task-list');
-    const widgetsContainer = document.getElementById('widgets-container');
-    const settingsButton = document.getElementById('settings-button');
-    const settingsPopup = document.getElementById('settings-popup');
-    const saveSettingsButton = document.getElementById('save-settings');
-    const widgetOptions = {
-        'clock-widget-option': 'clock-widget',
-        'news-widget-option': 'news-widget'
-    };
+    document.addEventListener('DOMContentLoaded', function() {
+        const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        const taskList = document.getElementById('task-list');
+        const widgetsContainer = document.getElementById('widgets-container');
+        const settingsButton = document.getElementById('settings-button');
+        const settingsPopup = document.getElementById('settings-popup');
+        const saveSettingsButton = document.getElementById('save-settings');
+        const widgetOptions = {
+            'clock-widget-option': 'clock-widget',
+            'news-widget-option': 'news-widget'
+        };
     
-    function initializeWidgets() {
-        widgetsContainer.innerHTML = '';
-        const savedWidgets = JSON.parse(localStorage.getItem('widgets')) || [];
-        savedWidgets.forEach(widgetId => {
-            addWidget(widgetId);
-        });
-    }
-
-
-    function addWidget(widgetId) {
-        const widget = document.createElement('div');
-        widget.className = `widget ${widgetId}`;
-        widget.setAttribute('draggable', false);
-        widget.setAttribute('data-widget-id', widgetId);
-        widgetsContainer.appendChild(widget);
-
-        switch (widgetId) {
-            case 'clock-widget':
-                widget.innerHTML = '<div id="clock"></div>';
-                updateClock();
-                setInterval(updateClock, 1000);
-                break;
-            case 'news-widget':
-                updateNews();
-                break;
+        // Initialize widgets based on saved settings
+        function initializeWidgets() {
+            widgetsContainer.innerHTML = '';
+            const savedWidgets = JSON.parse(localStorage.getItem('widgets')) || [];
+            savedWidgets.forEach(widgetId => {
+                addWidget(widgetId);
+            });
         }
-    }
     
-    function updateClock() {
-        const now = new Date();
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        const seconds = String(now.getSeconds()).padStart(2, '0');
-        const timeString = `${hours}:${minutes}:${seconds}`;
-        document.getElementById('clock').textContent = timeString;
-    }
+        // Add widget to the container
+        function addWidget(widgetId) {
+            const widget = document.createElement('div');
+            widget.className = `widget ${widgetId}`;
+            widget.setAttribute('draggable', false);
+            widget.setAttribute('data-widget-id', widgetId);
+            widgetsContainer.appendChild(widget);
     
-    function updateNews() {
-        const apiKey = '830633f2ddc44f2a9757d476105c9f2b';
-        const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;
-
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                const newsElement = document.querySelector('.news-widget');
-                const articles = data.articles.slice(0, 5); 
-                let newsHTML = '<h2>Top News</h2>';
-                articles.forEach(article => {
-                    newsHTML += `<p><a href="${article.url}" target="_blank">${article.title}</a></p>`;
-                });
-                newsElement.innerHTML = newsHTML;
-            })
-            .catch(error => console.error('Error fetching news:', error));
-    }
-
-    settingsButton.addEventListener('click', function() {
-        settingsPopup.classList.toggle('hidden');
-    });
-    saveSettingsButton.addEventListener('click', function() {
-        const selectedWidgets = [];
-        for (const option in widgetOptions) {
-            if (document.getElementById(option).checked) {
-                selectedWidgets.push(widgetOptions[option]);
+            switch (widgetId) {
+                case 'clock-widget':
+                    widget.innerHTML = '<div id="clock"></div>';
+                    updateClock();
+                    setInterval(updateClock, 1000);
+                    break;
+                case 'news-widget':
+                    updateNews();
+                    break;
             }
         }
-        localStorage.setItem('widgets', JSON.stringify(selectedWidgets));
+    
+        // Update clock widget
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const timeString = `${hours}:${minutes}:${seconds}`;
+            document.getElementById('clock').textContent = timeString;
+        }
+    
+        // Update news widget
+        function updateNews() {
+            const apiKey = '830633f2ddc44f2a9757d476105c9f2b';
+            const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;
+    
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const newsElement = document.querySelector('.news-widget');
+                    const articles = data.articles.slice(0, 5);
+                    let newsHTML = '<h2>Top News</h2>';
+                    articles.forEach(article => {
+                        newsHTML += `<p><a href="${article.url}" target="_blank">${article.title}</a></p>`;
+                    });
+                    newsElement.innerHTML = newsHTML;
+                })
+                .catch(error => console.error('Error fetching news:', error));
+        }
+    
+        // Toggle settings popup and add rotation animation
+        settingsButton.addEventListener('click', function() {
+            settingsButton.classList.add('rotate');
+            setTimeout(() => settingsButton.classList.remove('rotate'), 500);
+            settingsPopup.classList.toggle('hidden');
+        });
+    
+        // Save settings and hide the popup
+        saveSettingsButton.addEventListener('click', function() {
+            const selectedWidgets = [];
+            for (const option in widgetOptions) {
+                if (document.getElementById(option).checked) {
+                    selectedWidgets.push(widgetOptions[option]);
+                }
+            }
+            localStorage.setItem('widgets', JSON.stringify(selectedWidgets));
+            initializeWidgets();
+            settingsPopup.classList.add('hidden');
+        });
+    
+        // Initialize widgets
         initializeWidgets();
-        settingsPopup.classList.add('hidden');
     });
-
-    initializeWidgets();
-});
+    
+    
