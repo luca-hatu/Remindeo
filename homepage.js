@@ -95,8 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const settingsPopup = document.getElementById('settings-popup');
         const saveSettingsButton = document.getElementById('save-settings');
         const widgetOptions = {
-            'clock-widget-option': 'clock-widget',
-            'news-widget-option': 'news-widget'
+            'clock-widget-option': 'clock-widget'
         };
     
         // Initialize widgets based on saved settings
@@ -122,9 +121,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     updateClock();
                     setInterval(updateClock, 1000);
                     break;
-                case 'news-widget':
-                    updateNews();
-                    break;
             }
         }
     
@@ -136,25 +132,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const seconds = String(now.getSeconds()).padStart(2, '0');
             const timeString = `${hours}:${minutes}:${seconds}`;
             document.getElementById('clock').textContent = timeString;
-        }
-    
-        // Update news widget
-        function updateNews() {
-            const apiKey = '830633f2ddc44f2a9757d476105c9f2b';
-            const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;
-    
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    const newsElement = document.querySelector('.news-widget');
-                    const articles = data.articles.slice(0, 5);
-                    let newsHTML = '<h2>Top News</h2>';
-                    articles.forEach(article => {
-                        newsHTML += `<p><a href="${article.url}" target="_blank">${article.title}</a></p>`;
-                    });
-                    newsElement.innerHTML = newsHTML;
-                })
-                .catch(error => console.error('Error fetching news:', error));
         }
     
         // Toggle settings popup and add rotation animation
